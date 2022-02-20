@@ -59,6 +59,8 @@ const CardListButtons = withStyles(buttonStyles)(
               case enrollmentTypes.CANCELLED:
               case enrollmentTypes.COMPLETED:
                   return availableCardListButtonState.SHOW_RE_ENROLLMENT_BUTTON;
+              case enrollmentTypes.IN_DIFFERENT_PROGRAM:
+                  return availableCardListButtonState.SHOW_ENROLLMENT_IN_CURRENT_PROGRAM;
               default:
                   return availableCardListButtonState.DONT_SHOW_BUTTON;
               }
@@ -110,6 +112,21 @@ const CardListButtons = withStyles(buttonStyles)(
                         {i18n.t('Re-enroll')} {programName && `${i18n.t('in')} ${programName}`}
                     </Button>
                 }
+                {
+                    navigationButtonsState === availableCardListButtonState.SHOW_ENROLLMENT_IN_CURRENT_PROGRAM &&
+                    <Button
+                        small
+                        className={classes.buttonMargin}
+                        dataTest="enrollment-in-current-program-button"
+                        onClick={() => dispatch(navigateToEnrollmentOverview({
+                            teiId: id,
+                            programId: currentSearchScopeId,
+                            orgUnitId,
+                        }))}
+                    >
+                        {i18n.t('Enroll')} {programName && `${i18n.t('in')} ${programName}`}
+                    </Button>
+                }
             </>
         );
     });
@@ -121,6 +138,7 @@ export const SearchResultsIndex = ({
     classes,
     searchResults,
     dataElements,
+    programId,
     currentPage,
     currentSearchScopeType,
     currentSearchScopeId,
@@ -162,7 +180,21 @@ export const SearchResultsIndex = ({
         });
     };
 
-    const currentProgramId = (currentSearchScopeType === searchScopes.PROGRAM) ? currentSearchScopeId : '';
+    const deriveProgramId = (scopeType) => {
+        switch (scopeType) {
+        case searchScopes.PROGRAM:
+            return currentSearchScopeId;
+        case searchScopes.ALL_PROGRAMS:
+            return programId;
+        case searchScopes.TRACKED_ENTITY_TYPE:
+            return '';
+
+        default:
+            return '';
+        }
+    };
+
+    const currentProgramId = deriveProgramId(currentSearchScopeType);
 
     const { trackedEntityName } = useScopeInfo(currentSearchScopeId);
 

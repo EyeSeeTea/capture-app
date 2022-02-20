@@ -81,15 +81,18 @@ const deriveEnrollmentType =
       const enrollmentsInCurrentProgram = enrollments
           .filter(({ program }) => program === currentProgramId)
           .map(({ status, lastUpdated }) => ({ status, lastUpdated }));
+      const enrollmentsInDifferentProgram = enrollments
+          .filter(({ program }) => program !== currentProgramId);
 
-
-      const { ACTIVE, CANCELLED, COMPLETED } = enrollmentTypes;
+      const { ACTIVE, CANCELLED, COMPLETED, IN_DIFFERENT_PROGRAM } = enrollmentTypes;
       if (enrollmentsInCurrentProgram.find(({ status }) => status === ACTIVE)) {
           return ACTIVE;
       } else if (enrollmentsInCurrentProgram.find(({ status }) => status === COMPLETED)) {
           return COMPLETED;
       } else if (enrollmentsInCurrentProgram.find(({ status }) => status === CANCELLED)) {
           return CANCELLED;
+      } else if (enrollmentsInDifferentProgram.length) {
+          return IN_DIFFERENT_PROGRAM;
       }
       return enrollmentTypes.DONT_SHOW_TAG;
   };
@@ -97,12 +100,6 @@ const deriveEnrollmentType =
 const deriveEnrollmentData =
   (enrollments, enrollmentType, currentProgramId): {orgUnitName?: string, enrolledAt?: string, programName?: string} => {
       if (!currentProgramId) {
-          if (enrollments.length) {
-              const { orgUnitName, program: programId, enrolledAt } = enrollments[0];
-              const program = getProgramFromProgramIdThrowIfNotFound(programId);
-              return { orgUnitName, programName: program.name, enrolledAt };
-          }
-
           return {};
       }
       const { orgUnitName, enrolledAt } =
@@ -111,9 +108,19 @@ const deriveEnrollmentData =
             .filter(({ status }) => status === enrollmentType)
             .sort((a, b) => moment.utc(a.lastUpdated).diff(moment.utc(b.lastUpdated)))[0]
         || {};
-
-      return { orgUnitName, enrolledAt };
+      const programId = enrollments[0].program;
+      const program = getProgramFromProgramIdThrowIfNotFound(programId);
+      return { orgUnitName, enrolledAt, programName: program.name };
   };
+
+const deriveProgramName = (enrollmentType, currentProgramId, currentSearchScopeName) => {
+    if (enrollmentType === enrollmentTypes.IN_DIFFERENT_PROGRAM && currentProgramId) {
+        const program = getProgramFromProgramIdThrowIfNotFound(currentProgramId);
+        return program?.name;
+    }
+
+    return currentSearchScopeName;
+};
 
 /* eslint-disable */
 const CardListItemIndex = ({
@@ -135,8 +142,9 @@ const CardListItemIndex = ({
     };
     const enrollments = item.tei ? item.tei.enrollments : [];
     const enrollmentType = deriveEnrollmentType(enrollments, currentProgramId);
-    const { orgUnitName, enrolledAt, programName } = deriveEnrollmentData(enrollments, enrollmentType, currentProgramId);
-
+    const { orgUnitName, enrolledAt, programName:enrollmentProgramName } = deriveEnrollmentData(enrollments, enrollmentType, currentProgramId);
+    const programName = deriveProgramName(enrollmentType, currentProgramId, currentSearchScopeName);
+    
     return (
         <div data-test="card-list-item" className={classes.itemContainer}>
             <div className={classes.itemDataContainer}>
@@ -173,8 +181,8 @@ const CardListItemIndex = ({
                                 }
 
                                 {
-                                    programName &&
-                                    <ListEntry name={i18n.t('Program')} value={programName}  />
+                                    enrollmentProgramName &&
+                                    <ListEntry name={i18n.t('Program')} value={enrollmentProgramName}  />
                                 }
 
                             </Grid>
@@ -235,7 +243,7 @@ const CardListItemIndex = ({
                             // we pass the programName because we have the case that the scope of the search
                             // can be different that the scopeId from the url
                             // this can happen for example when you are registering through the relationships
-                            programName: currentSearchScopeName,
+                            programName,
                             enrollmentType,
                         })
                     }

@@ -15,6 +15,7 @@ export type PropsFromRedux ={|
   +currentSearchScopeId: string,
   +currentSearchScopeName: string,
   +currentFormId: string,
+  +programId: string,
   +searchResults: Array<ListItem>,
   +currentSearchTerms: CurrentSearchTerms,
   +dataElements: CardDataElementsInformation

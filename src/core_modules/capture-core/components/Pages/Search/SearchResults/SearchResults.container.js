@@ -42,6 +42,7 @@ const mapStateToProps = (state: ReduxState): PropsFromRedux => {
             currentSearchTerms,
         },
     } = state.searchPage;
+    const { programId } = state.currentSelections;
 
     const scopeEntity = getCurrentScope(currentSearchScopeId, currentSearchScopeType);
 
@@ -61,6 +62,7 @@ const mapStateToProps = (state: ReduxState): PropsFromRedux => {
         currentFormId,
         currentSearchTerms,
         dataElements,
+        programId,
     };
 };
 
