@@ -70,8 +70,8 @@ export const startFallbackSearch = ({ programId, formId, page = 1, pageSize, ava
 export const fallbackSearch = ({ fallbackFormValues, trackedEntityTypeId, pageSize, page = 1 }) =>
     actionCreator(searchPageActionTypes.FALLBACK_SEARCH)({ fallbackFormValues, trackedEntityTypeId, pageSize, page });
 
-export const fallbackPushPage = ({ orgUnitId, trackedEntityTypeId, values }) =>
-    actionCreator(searchPageActionTypes.FALLBACK_SEARCH_COMPLETED)({ orgUnitId, trackedEntityTypeId, values });
+export const fallbackPushPage = ({ programId, orgUnitId, trackedEntityTypeId, values }) =>
+    actionCreator(searchPageActionTypes.FALLBACK_SEARCH_COMPLETED)({ programId, orgUnitId, trackedEntityTypeId, values });
 
 
 export const cleanSearchRelatedData = () =>

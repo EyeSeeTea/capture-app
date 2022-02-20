@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-15T09:59:36.798Z\n"
-"PO-Revision-Date: 2022-02-15T09:59:36.798Z\n"
+"POT-Creation-Date: 2022-02-20T11:35:05.840Z\n"
+"PO-Revision-Date: 2022-02-20T11:35:05.840Z\n"
 
 msgid "Choose one or more dates..."
 msgstr "Choose one or more dates..."
@@ -40,6 +40,9 @@ msgstr "Organisation unit"
 
 msgid "Date of enrollment"
 msgstr "Date of enrollment"
+
+msgid "Program"
+msgstr "Program"
 
 msgid "Last updated"
 msgstr "Last updated"
@@ -553,9 +556,6 @@ msgstr "Registering Organisation Unit"
 msgid "Select"
 msgstr "Select"
 
-msgid "Program"
-msgstr "Program"
-
 msgid "No programs available."
 msgstr "No programs available."
 
@@ -873,6 +873,9 @@ msgstr ""
 
 msgid "Search in all programs"
 msgstr "Search in all programs"
+
+msgid "all programs"
+msgstr "all programs"
 
 msgid "events"
 msgstr "events"

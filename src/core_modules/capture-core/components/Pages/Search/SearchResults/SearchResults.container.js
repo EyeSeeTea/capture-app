@@ -1,5 +1,6 @@
 // @flow
 import type { ComponentType } from 'react';
+import i18n from '@dhis2/d2-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { SearchResultsComponent } from './SearchResults.component';
@@ -17,6 +18,11 @@ const getCurrentScope = (scopeId: string, scopeType: $Keys<typeof searchScopes>)
     }
     if (scopeType === searchScopes.TRACKED_ENTITY_TYPE) {
         return getTrackedEntityTypeThrowIfNotFound(scopeId);
+    }
+    if (scopeType === searchScopes.ALL_PROGRAMS) {
+        const scope = getTrackedEntityTypeThrowIfNotFound(scopeId);
+        scope.name = i18n.t('all programs');
+        return scope;
     }
 
     return null;

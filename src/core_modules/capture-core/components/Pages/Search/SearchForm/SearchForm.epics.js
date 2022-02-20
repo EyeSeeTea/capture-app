@@ -229,12 +229,12 @@ export const startFallbackSearchEpic = (action$: InputObservable, store: ReduxSt
                 const fallbackSearchTerms = deriveCurrentFallbackSearchTerms(searchTermsFromOriginalSearch, fallbackFormValues);
 
                 return concat(
-                    of(fallbackPushPage({ orgUnitId, trackedEntityTypeId })),
+                    of(fallbackPushPage({ orgUnitId, trackedEntityTypeId, programId })),
                     of(fallbackSearch({ trackedEntityTypeId, fallbackFormValues, pageSize })),
                     of(saveCurrentSearchInfo({
                         formId: fallbackFormId,
                         currentSearchTerms: fallbackSearchTerms,
-                        searchScopeType: scopeTypes.TRACKED_ENTITY_TYPE,
+                        searchScopeType: scopeTypes.ALL_PROGRAMS,
                         searchScopeId: trackedEntityTypeId,
                     })),
                 );
@@ -257,6 +257,7 @@ export const fallbackSearchEpic: Epic = (action$: InputObservable) =>
                 page,
                 pageSize,
                 ouMode: 'ACCESSIBLE',
+                fields: 'enrollments',
             };
 
 
@@ -277,8 +278,8 @@ export const fallbackSearchEpic: Epic = (action$: InputObservable) =>
 export const fallbackPushPageEpic = (action$: InputObservable, _: ReduxStore, { history }: ApiUtils) =>
     action$.pipe(
         ofType(searchPageActionTypes.FALLBACK_SEARCH_COMPLETED),
-        switchMap(({ payload: { orgUnitId, trackedEntityTypeId } }) => {
-            history.push(`/search?${buildUrlQueryString({ orgUnitId, trackedEntityTypeId })}`);
+        switchMap(({ payload: { orgUnitId, programId, trackedEntityTypeId } }) => {
+            history.push(`/search?${buildUrlQueryString({ orgUnitId, programId, trackedEntityTypeId })}`);
             return EMPTY;
         }),
     );
