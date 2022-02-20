@@ -11,9 +11,9 @@ import type {
 } from '../Pages/Search/SearchResults/SearchResults.types';
 import { enrollmentTypes } from './CardList.constants';
 import { ListEntry } from './ListEntry.component';
-import { dataElementTypes } from '../../metaData';
+import { dataElementTypes, getProgramFromProgramIdThrowIfNotFound } from '../../metaData';
 import type { ListItem, RenderCustomCardActions } from './CardList.types';
-import { getProgramFromProgramIdThrowIfNotFound } from 'capture-core/metaData';
+
 
 type OwnProps = $ReadOnly<{|
     item: ListItem,
