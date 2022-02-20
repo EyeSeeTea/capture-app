@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-02-20T16:23:38.238Z\n"
-"PO-Revision-Date: 2022-02-20T16:23:38.238Z\n"
+"POT-Creation-Date: 2022-02-20T16:44:17.295Z\n"
+"PO-Revision-Date: 2022-02-20T16:44:17.296Z\n"
 
 msgid "Choose one or more dates..."
 msgstr "Choose one or more dates..."
@@ -877,9 +877,6 @@ msgstr ""
 msgid "Search in all programs"
 msgstr "Search in all programs"
 
-msgid "all programs"
-msgstr "all programs"
-
 msgid "events"
 msgstr "events"
 
@@ -941,8 +938,14 @@ msgstr "You dont have access to create any relationships"
 msgid "Add relationship"
 msgstr "Add relationship"
 
+msgid "Results found in all programs"
+msgstr "Results found in all programs"
+
 msgid "Results found"
 msgstr "Results found"
+
+msgid "in {{scopeName}}"
+msgstr "in {{scopeName}}"
 
 msgid "Search {{uniqueAttrName}}"
 msgstr "Search {{uniqueAttrName}}"

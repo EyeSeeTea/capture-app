@@ -20,9 +20,7 @@ const getCurrentScope = (scopeId: string, scopeType: $Keys<typeof searchScopes>)
         return getTrackedEntityTypeThrowIfNotFound(scopeId);
     }
     if (scopeType === searchScopes.ALL_PROGRAMS) {
-        const scope = getTrackedEntityTypeThrowIfNotFound(scopeId);
-        scope.name = i18n.t('all programs');
-        return scope;
+        return getTrackedEntityTypeThrowIfNotFound(scopeId);
     }
 
     return null;

@@ -44,6 +44,7 @@ const buttonStyles = (theme: Theme) => ({
 
 const CardListButtons = withStyles(buttonStyles)(
     ({
+        currentProgramId,
         currentSearchScopeId,
         currentSearchScopeType,
         id,
@@ -76,6 +77,13 @@ const CardListButtons = withStyles(buttonStyles)(
                 dispatch(navigateToEnrollmentOverview({
                     teiId: id,
                     programId: currentSearchScopeId,
+                    orgUnitId,
+                }));
+                break;
+            case searchScopes.ALL_PROGRAMS:
+                dispatch(navigateToEnrollmentOverview({
+                    teiId: id,
+                    programId: currentProgramId,
                     orgUnitId,
                 }));
                 break;
@@ -127,11 +135,7 @@ const CardListButtons = withStyles(buttonStyles)(
                         small
                         className={classes.buttonMargin}
                         dataTest="enrollment-in-current-program-button"
-                        onClick={() => dispatch(navigateToEnrollmentOverview({
-                            teiId: id,
-                            programId: currentSearchScopeId,
-                            orgUnitId,
-                        }))}
+                        onClick={onHandleClick}
                     >
                         {i18n.t('Enroll')} {programName && `${i18n.t('in')} ${programName}`}
                     </Button>
@@ -208,7 +212,11 @@ export const SearchResultsIndex = ({
     const { trackedEntityName } = useScopeInfo(currentSearchScopeId);
 
     return (<>
-        <SearchResultsHeader currentSearchTerms={currentSearchTerms} currentSearchScopeName={currentSearchScopeName} />
+        <SearchResultsHeader
+            currentSearchScopeType={currentSearchScopeType}
+            currentSearchTerms={currentSearchTerms}
+            currentSearchScopeName={currentSearchScopeName}
+        />
         <CardList
             noItemsText={i18n.t('No results found')}
             currentSearchScopeName={currentSearchScopeName}
@@ -217,6 +225,7 @@ export const SearchResultsIndex = ({
             dataElements={dataElements}
             renderCustomCardActions={({ item, enrollmentType, programName }) => (
                 <CardListButtons
+                    currentProgramId={currentProgramId}
                     programName={programName}
                     currentSearchScopeId={currentSearchScopeId}
                     currentSearchScopeType={currentSearchScopeType}

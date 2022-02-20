@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core';
 import i18n from '@dhis2/d2-i18n';
 import type { CurrentSearchTerms } from '../Pages/Search/SearchForm/SearchForm.types';
 import { convertValue } from '../../converters/clientToList';
+import { searchScopes } from '../Pages/Search/SearchPage.constants';
 
 const styles = (theme: Theme) => ({
     topSection: {
@@ -17,13 +18,22 @@ const styles = (theme: Theme) => ({
 type SearchResultsHeaderType = $ReadOnly<{|
   currentSearchTerms: CurrentSearchTerms,
   currentSearchScopeName?: string,
+  currentSearchScopeType: string,
   ...CssClasses
 |}>
 
 const SearchResultsHeaderPlain =
-  ({ currentSearchTerms, currentSearchScopeName, classes }: SearchResultsHeaderType) =>
-      (<div data-test="search-results-top" className={classes.topSection} >
-          {i18n.t('Results found')} {currentSearchScopeName && `${i18n.t('in')} ${currentSearchScopeName}`}
+  ({ currentSearchTerms, currentSearchScopeName, currentSearchScopeType, classes }: SearchResultsHeaderType) => {
+      const renderText = () => {
+          if (currentSearchScopeType === searchScopes.ALL_PROGRAMS) {
+              return i18n.t('Results found in all programs');
+          }
+          return `${i18n.t('Results found')} 
+          ${currentSearchScopeName ? i18n.t('in {{scopeName}}', { scopeName: currentSearchScopeName }) : ''}`;
+      };
+
+      return (<div data-test="search-results-top" className={classes.topSection} >
+          {renderText()}
           <div>
               {
                   currentSearchTerms.map(({ name, value, id, type }, index, rest) => (
@@ -36,5 +46,5 @@ const SearchResultsHeaderPlain =
           </div>
       </div>
       );
-
+  };
 export const SearchResultsHeader = withStyles(styles)(SearchResultsHeaderPlain);
