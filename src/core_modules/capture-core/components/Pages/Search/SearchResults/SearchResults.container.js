@@ -1,6 +1,5 @@
 // @flow
 import type { ComponentType } from 'react';
-import i18n from '@dhis2/d2-i18n';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { SearchResultsComponent } from './SearchResults.component';
