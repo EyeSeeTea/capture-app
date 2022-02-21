@@ -64,6 +64,11 @@ When('you have no program selection', () => {
         .contains('Select program');
 });
 
+When(/^you have program selection: (.*)$/, (programName) => {
+    cy.get('[data-test="program-selector-container"]')
+        .contains(programName);
+});
+
 When('you click the next page button', () => {
     cy.get('[data-test="search-pagination-next-page"]')
         .click();

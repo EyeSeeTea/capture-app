@@ -298,6 +298,11 @@ When('you navigated to a search page with tracked entity id on the url', () => {
     cy.url().should('include', 'search?trackedEntityTypeId=nEenWmSyUEp');
 });
 
+And(/^you navigated to a search page with program id (.*) and tracked entity id (.*) on the url$/,
+    (programId, tetId) => {
+        cy.url().should('include', `search?programId=${programId}&trackedEntityTypeId=${tetId}`);
+    });
+
 When('you can see the domain selector with the tetype person selected', () => {
     cy.get('[data-test="dhis2-uicore-select-input"]')
         .contains('Person');
@@ -358,3 +363,9 @@ Then('you should be taken to the main page with org unit preselected', () => {
     cy.url()
         .should('eq', `${Cypress.config().baseUrl}/#/?orgUnitId=DiszpKrYNg8`);
 });
+
+Then(/^you should be taken to the main page with org unit (.*) and program (.*) preselected$/,
+    (orgUnitId, programId) => {
+        cy.url()
+            .should('eq', `${Cypress.config().baseUrl}/#/?orgUnitId=${orgUnitId}&programId=${programId}`);
+    });
