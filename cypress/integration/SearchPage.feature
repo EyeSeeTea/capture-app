@@ -191,7 +191,6 @@ Feature: User interacts with Search page
     When you click the fallback search button
     Then you navigated to a search page with program id IpHINAT79UW and tracked entity id nEenWmSyUEp on the url
     And you have program selection: Child Programme
-    And you can see the domain selector with the tetype person selected
     And you can see the first page of the results
     And there is not enrollment tag
 

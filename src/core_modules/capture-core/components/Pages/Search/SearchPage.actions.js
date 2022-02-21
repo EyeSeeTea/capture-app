@@ -16,7 +16,7 @@ export const searchPageActionTypes = {
     INITIAL_PROGRAM_ID_STORE: 'StoreInitialProgramId',
     FALLBACK_SEARCH_START: 'StartFallbackSearch',
     FALLBACK_SEARCH: 'FallbackSearchTakesPlace',
-    FALLBACK_SEARCH_COMPLETED: 'FallbackWillPushToSearchPageWithoutProgramSelected',
+    FALLBACK_SEARCH_COMPLETED: 'FallbackWillPushToSearchPageWithProgramSelected',
     ALL_SEARCH_RELATED_DATA_CLEAN: 'CleanSearchRelatedData',
     FALLBACK_SEARCH_RELATED_DATA_CLEAN: 'CleanFallbackSearchRelatedData',
 };
