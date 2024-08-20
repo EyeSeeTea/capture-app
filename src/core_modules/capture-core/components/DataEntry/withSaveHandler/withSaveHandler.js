@@ -295,7 +295,11 @@ const getSaveHandler = (
                     .every((reduxSectionKey) => {
                         const reduxSection = state.formsSectionsFieldsUI[reduxSectionKey];
                         // $FlowFixMe
-                        return reduxSection && Object.values(reduxSection).every(({ valid }) => valid !== undefined);
+
+                        // In the original code, the validation failed if no section was found.
+                        // That's because hidden sections are not present in state.formsSectionsFieldsUI.
+                        // As a simple fix, let's consider hidden sections as unconditionally valid.
+                        return !reduxSection || Object.values(reduxSection).every(({ valid }) => valid !== undefined);
                     }),
             };
         };
