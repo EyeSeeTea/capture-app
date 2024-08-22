@@ -145,6 +145,13 @@ const getMainButton = (InnerComponent: React.ComponentType<any>) =>
                 this.renderCreateNewButton() :
                 this.renderMultiButton(buttons, hasWriteAccess);
             const completeButton = isCreateNew ? this.renderCompleteButton() : null;
+
+            /* ISSUE: In commit cd9e0e4040, formHorizontal was extracted from this.props for local use.
+             * This caused it to be omitted from passOnProps, leading to child components receiving
+             * it as undefined.
+             *
+             * SOLUTION: Pass formHorizontal explicitly as a separate prop.
+             */
             return (
                 // $FlowFixMe[cannot-spread-inexact] automated comment
                 <InnerComponent
@@ -152,6 +159,7 @@ const getMainButton = (InnerComponent: React.ComponentType<any>) =>
                     ref={(innerInstance) => { this.innerInstance = innerInstance; }}
                     mainButton={mainButton}
                     completeButton={completeButton}
+                    formHorizontal={formHorizontal}
                     {...passOnProps}
                 />
             );
