@@ -310,14 +310,21 @@ export class EnrollmentFactory {
                     });
                 } else if (cachedProgramSections) {
                     // $FlowFixMe
-                    cachedProgramSections.asyncForEach(async (programSection) => {
-                        section = await this._buildSection(
+                    const sectionPromises = cachedProgramSections.map(programSection =>
+                        this._buildSection(
                             programSection.trackedEntityAttributes.map(id => trackedEntityAttributeDictionary[id]),
                             programSection.displayFormName,
                             programSection.id,
                             programSection.displayDescription,
-                        );
-                        section && enrollmentForm.addSection(section);
+                        ),
+                    );
+
+                    const sections = await Promise.all(sectionPromises);
+
+                    sections.forEach((sectionToAdd) => {
+                        if (sectionToAdd) {
+                            enrollmentForm.addSection(sectionToAdd);
+                        }
                     });
                 }
             }
