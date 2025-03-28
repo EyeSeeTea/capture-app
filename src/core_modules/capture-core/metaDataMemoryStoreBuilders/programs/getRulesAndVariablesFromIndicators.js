@@ -64,22 +64,35 @@ function getDirectAddressedVariable(variableWithCurls, programData) {
 
     if (variableNameParts.length === 2) {
         // This is a programstage and dataelement specification
+        const dataElement = programData.dataElements[variableNameParts[1]];
+        if (!dataElement) {
+            log.warn('Program Indicator is missing dataElement for variable',
+                variableName, 'in programData', programData);
+            return null;
+        }
         newVariableObject = {
             id: variableName,
             displayName: variableName,
             programRuleVariableSourceType: variableSourceTypes.DATAELEMENT_NEWEST_EVENT_PROGRAM_STAGE,
-            valueType: programData.dataElements[variableNameParts[1]].valueType,
+            valueType: dataElement.valueType,
             programStageId: variableNameParts[0],
             dataElementId: variableNameParts[1],
             programId: programData.programId,
         };
     } else { // if (variableNameParts.length === 1)
         // This is an attribute
+        const attribute = programData.attributes[variableNameParts[0]];
+        if (!attribute) {
+            log.warn('Program Indicator is missing attribute for variable',
+                variableName, 'in programData', programData);
+            return null;
+        }
+
         newVariableObject = {
             id: variableName,
             displayName: variableName,
             programRuleVariableSourceType: variableSourceTypes.TEI_ATTRIBUTE,
-            valueType: programData.attributes[variableNameParts[0]].valueType,
+            valueType: attribute.valueType,
             trackedEntityAttributeId: variableNameParts[0],
             programId: programData.programId,
         };
@@ -94,11 +107,21 @@ function getVariables(action, rule, programData) {
 
     const directAddressedVariablesFromConditions = variablesInCondition.map(variableInCondition => getDirectAddressedVariable(variableInCondition, programData));
     const directAddressedVariablesFromData = variablesInData.map(variableInData => getDirectAddressedVariable(variableInData, programData));
-    const variables = [...directAddressedVariablesFromConditions, ...directAddressedVariablesFromData];
+    const allVariables = [...directAddressedVariablesFromConditions, ...directAddressedVariablesFromData];
+    const variables = allVariables.filter(Boolean);
+
+    // diagnose problems with Program Indicators
+    if (variables.length < allVariables.length) {
+        log.error(
+            errorCreator('Program Indicator contains variables referencing missing dataElement or attribute')(
+                { method: 'getVariables', object: rule },
+            ),
+        );
+    }
 
     return {
         variables,
-        variableObjectsCurrentExpression: directAddressedVariablesFromData,
+        variableObjectsCurrentExpression: directAddressedVariablesFromData.filter(Boolean),
     };
 }
 
