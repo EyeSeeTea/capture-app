@@ -143,7 +143,7 @@ export function postProcessRulesEffects(
         foundation,
         // $FlowFixMe
         assignValueEffects,
-        hideFieldEffects,
+        hideFieldEffects: filteredHideFieldEffects,
     });
 
     return [
