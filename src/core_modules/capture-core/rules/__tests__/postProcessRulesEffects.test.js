@@ -179,6 +179,11 @@ test('Post process rules effects', () => {
             value: null,
         },
         {
+            id: 'da1Id',
+            type: 'ASSIGN',
+            value: null,
+        },
+        {
             id: 'w75KJ2mc4zz',
             type: 'ASSIGN',
             value: 'value1',
