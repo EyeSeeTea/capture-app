@@ -24,8 +24,11 @@ export const useRulesEngine = ({
     // The problem is the helper methods that take the entire state object.
     // Refactor the helper methods (getCurrentClientValues, getCurrentClientMainData in rules/actionsCreator) to be more explicit with the arguments.
     const state = useSelector(stateArg => stateArg);
+
+    // HACK: use this flag as a workaround to avoid dispatching getRulesActions when formFoundation is cached
+    const isNewForm = useSelector(stateArg => stateArg.formsSectionsFieldsUI['singleEvent-newEvent'] === undefined);
     useEffect(() => {
-        if (orgUnit && program && !!formFoundation) {
+        if (orgUnit && program && !!formFoundation && isNewForm) {
             dispatch(batchActions([
                 getRulesActions({
                     state,
@@ -43,6 +46,7 @@ export const useRulesEngine = ({
         program,
         orgUnit,
         formFoundation,
+        isNewForm,
     ]);
 
     return !!orgUnit && orgUnitRef.current === orgUnit;
