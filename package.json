@@ -1,7 +1,7 @@
 {
     "name": "capture-app",
     "homepage": ".",
-    "version": "105.5.2",
+    "version": "105.5.2-ocg-1",
     "cacheVersion": "2",
     "license": "BSD-3-Clause",
     "private": true,
@@ -27,6 +27,7 @@
         "d2-utilizr": "^0.2.15",
         "date-fns": "^1.29.0",
         "history": "^5.3.0",
+        "js-sha256": "^0.11.1",
         "leaflet": "^1.7.1",
         "leaflet-draw": "^1.0.4",
         "lodash": "^4.17.21",
