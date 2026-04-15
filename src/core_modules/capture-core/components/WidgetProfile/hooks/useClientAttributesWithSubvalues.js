@@ -21,6 +21,10 @@ type InputProgramData = {
             },
             valueType: string,
             unique: boolean,
+            access?: ?{
+                read?: ?boolean,
+                write?: ?boolean,
+            }
         },
         displayInList: boolean,
     }>,
@@ -53,8 +57,11 @@ export const useClientAttributesWithSubvalues = (teiId: string, program: InputPr
             const computedAttributes = await programTrackedEntityAttributes.reduce(async (promisedAcc, currentTEA) => {
                 const {
                     displayInList,
-                    trackedEntityAttribute: { id, optionSet, valueType, unique, displayFormName },
+                    trackedEntityAttribute: { id, optionSet, valueType, unique, displayFormName, access },
                 } = currentTEA;
+                if (access?.read === false) {
+                    return promisedAcc;
+                }
                 const foundAttribute = trackedEntityInstanceAttributes?.find(item => item.attribute === id);
                 let value;
                 if (foundAttribute) {

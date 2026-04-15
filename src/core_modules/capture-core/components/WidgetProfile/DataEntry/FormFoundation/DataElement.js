@@ -197,7 +197,7 @@ const setBaseProperties = async ({
     dataElement.description = trackedEntityAttribute.description;
     dataElement.displayInForms = true;
     dataElement.displayInReports = programTrackedEntityAttribute.displayInList;
-    dataElement.disabled = false;
+    dataElement.disabled = trackedEntityAttribute.access?.write === false;
     dataElement.type = trackedEntityAttribute.valueType;
     dataElement.searchable = programTrackedEntityAttribute.searchable;
 
@@ -337,6 +337,10 @@ export const buildDataElement = (
                 programTrackedEntityAttribute,
             }),
         );
+        return null;
+    }
+
+    if (trackedEntityAttribute.access?.read === false) {
         return null;
     }
 

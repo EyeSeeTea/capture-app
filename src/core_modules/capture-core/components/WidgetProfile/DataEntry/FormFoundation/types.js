@@ -55,6 +55,10 @@ export type TrackedEntityAttribute = {
     unique: ?boolean,
     orgunitScope: ?boolean,
     pattern: ?string,
+    access?: ?{
+        read?: ?boolean,
+        write?: ?boolean,
+    },
 };
 
 export type ProgramTrackedEntityAttribute = {
