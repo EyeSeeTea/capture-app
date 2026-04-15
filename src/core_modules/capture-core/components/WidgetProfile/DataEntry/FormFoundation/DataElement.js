@@ -197,7 +197,7 @@ const setBaseProperties = async ({
     dataElement.description = trackedEntityAttribute.description;
     dataElement.displayInForms = true;
     dataElement.displayInReports = programTrackedEntityAttribute.displayInList;
-    dataElement.disabled = trackedEntityAttribute.access?.write === false;
+    dataElement.disabled = false;
     dataElement.type = trackedEntityAttribute.valueType;
     dataElement.searchable = programTrackedEntityAttribute.searchable;
 

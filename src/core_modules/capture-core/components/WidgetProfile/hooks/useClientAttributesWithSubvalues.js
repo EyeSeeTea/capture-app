@@ -23,7 +23,6 @@ type InputProgramData = {
             unique: boolean,
             access?: ?{
                 read?: ?boolean,
-                write?: ?boolean,
             }
         },
         displayInList: boolean,

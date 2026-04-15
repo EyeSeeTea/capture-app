@@ -57,7 +57,6 @@ export type TrackedEntityAttribute = {
     pattern: ?string,
     access?: ?{
         read?: ?boolean,
-        write?: ?boolean,
     },
 };
 
