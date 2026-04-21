@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-03-17T09:58:03.655Z\n"
-"PO-Revision-Date: 2026-03-17T09:58:03.655Z\n"
+"POT-Creation-Date: 2026-04-21T15:20:41.203Z\n"
+"PO-Revision-Date: 2026-04-21T15:20:41.203Z\n"
 
 msgid "The application could not be loaded."
 msgstr "The application could not be loaded."
@@ -2305,8 +2305,16 @@ msgstr "To date"
 msgid "To time"
 msgstr "To time"
 
+msgid "Page {{currentPage}} of {{pageCount}}"
+msgstr "Page {{currentPage}} of {{pageCount}}"
+
 msgid "Page {{currentPage}}"
 msgstr "Page {{currentPage}}"
+
+msgid "{{count}} result"
+msgid_plural "{{count}} result"
+msgstr[0] "{{count}} result"
+msgstr[1] "{{count}} results"
 
 msgid "Area on map saved"
 msgstr "Area on map saved"

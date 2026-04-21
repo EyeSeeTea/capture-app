@@ -1,6 +1,6 @@
-import type { FiltersData, ListViewPassOnProps, DataSource, ChangePage, ChangeRowsPerPage } from '../types';
+import type { FiltersData, ListViewPassOnProps, DataSource, ChangePage, ChangeRowsPerPage, PagingTotals } from '../types';
 
-type ComponentProps = {
+type ComponentProps = PagingTotals & {
     filters: FiltersData;
     onChangePage: ChangePage;
     onChangeRowsPerPage: ChangeRowsPerPage;

@@ -62,6 +62,8 @@ export const ListViewUpdater = (props: Props) => {
     const {
         currentPage,
         rowsPerPage,
+        total,
+        pageCount,
         onCancelUpdateList,
         customUpdateTrigger,
         forceUpdateOnMount,
@@ -128,6 +130,8 @@ export const ListViewUpdater = (props: Props) => {
             sortByDirection={sortByDirection}
             currentPage={computedPage}
             rowsPerPage={rowsPerPage}
+            total={total}
+            pageCount={pageCount}
             ready={!resetMode}
         />
     );

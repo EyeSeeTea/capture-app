@@ -160,6 +160,7 @@ export const createApiQueryArgs = (queryArgs: any, mainColumns: any, categoryCom
         ...getApiFilterQueryArgument(queryArgs.filters, mainColumns),
         ...getMainApiFilterQueryArguments(queryArgs.filters, mainColumns),
         ...getApiCategoriesQueryArgument(queryArgs.categories, categoryCombinationId),
+        totalPages: true,
     };
 
     apiQueryArgs.order?.includes('default') && delete apiQueryArgs.order;

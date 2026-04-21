@@ -23,6 +23,7 @@ export type {
     ResetColumnOrder,
     SelectRow,
     Sort,
+    PagingTotals,
 } from './types';
 
 export { dateFilterTypes, assigneeFilterModes } from '../FiltersForTypes';

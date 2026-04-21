@@ -41,6 +41,7 @@ filtersOnlyMetaForDataFetching: TeiFiltersOnlyMetaForDataFetching,
         [orgUnitModeQueryParam]: orgUnitId ? 'SELECTED' : 'ACCESSIBLE',
         program,
         fields: ':all,!relationships,programOwners[orgUnit,program]',
+        totalPages: true,
     };
 };
 
@@ -71,6 +72,12 @@ export const getTeiListData = async (
 
     return {
         recordContainers: clientTeisWithSubvalues,
+        pagingData: {
+            rowsPerPage: queryParams.pageSize,
+            currentPage: queryParams.page,
+            total: apiResponse?.total ?? null,
+            pageCount: apiResponse?.pageCount ?? null,
+        },
         request: {
             url,
             queryParams,
