@@ -2311,8 +2311,16 @@ msgstr "To date"
 msgid "To time"
 msgstr "To time"
 
+msgid "Page {{currentPage}} of {{pageCount}}"
+msgstr "Page {{currentPage}} of {{pageCount}}"
+
 msgid "Page {{currentPage}}"
 msgstr "Page {{currentPage}}"
+
+msgid "{{count}} result"
+msgid_plural "{{count}} result"
+msgstr[0] "{{count}} result"
+msgstr[1] "{{count}} results"
 
 msgid "Area on map saved"
 msgstr "Area on map saved"

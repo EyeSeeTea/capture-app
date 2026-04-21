@@ -1,5 +1,5 @@
 import type { Categories, UpdateList } from '../workingListsBase.types';
-import type { FiltersData } from '../../../ListView';
+import type { FiltersData, PagingTotals } from '../../../ListView';
 import type { ListViewLoaderOutputProps } from '../ListViewLoader';
 
 type ExtractedProps = {
@@ -22,7 +22,7 @@ type RestProps = ListViewLoaderOutputProps & OptionalExtractedProps | ExtractedP
 
 export type Props = RestProps & ExtractedProps;
 
-export type ListViewUpdaterOutputProps = RestProps & {
+export type ListViewUpdaterOutputProps = RestProps & PagingTotals & {
     filters: FiltersData,
     sortById: string,
     sortByDirection: string,

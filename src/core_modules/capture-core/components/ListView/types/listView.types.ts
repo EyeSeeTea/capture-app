@@ -18,6 +18,11 @@ export type Column = {
 
 export type Columns = Array<Column>;
 
+export type PagingTotals = {
+    total?: number | null;
+    pageCount?: number | null;
+};
+
 export type FilterOnly = {
     id: string;
     type: typeof dataElementTypes[keyof typeof dataElementTypes];
@@ -70,7 +75,7 @@ export type CustomTopBarActions = Array<{key: string, actionContents: ReactNode}
 
 export type FiltersData = { [id: string]: FilterData };
 
-export type PaginationContextData = {
+export type PaginationContextData = PagingTotals & {
     onChangePage: (pageNumber: number) => void;
     onChangeRowsPerPage: (rowsPerPage: number) => void;
     rowsPerPage: number;
@@ -94,7 +99,7 @@ export type SetColumnOrder = (columns: Columns) => void;
 export type ResetColumnOrder = () => void;
 export type SelectRow = (rowData: DataSourceItem) => void;
 export type Sort = (id: string, direction: string) => void;
-export type InterfaceProps = {
+export type InterfaceProps = PagingTotals & {
     columns?: Columns;
     filtersOnly?: FiltersOnly;
     additionalFilters?: AdditionalFilters;

@@ -11,6 +11,7 @@ import type {
     DataSource,
     FiltersData,
     FiltersOnly,
+    PagingTotals,
     RemoveFilter,
     SelectRestMenuItem,
     SelectRow,
@@ -130,7 +131,7 @@ export type ListViewLoaderContextData = {
     viewPreloaded?: boolean,
 };
 
-export type ListViewUpdaterContextData = {
+export type ListViewUpdaterContextData = PagingTotals & {
     currentPage?: number,
     rowsPerPage?: number,
     onCancelUpdateList?: () => void,
@@ -180,7 +181,7 @@ export type SharingSettings = {
 };
 export type SetTemplateSharingSettings = (sharingSettings: SharingSettings, templateId: string) => void;
 
-export type InterfaceProps = Readonly<{
+export type InterfaceProps = Readonly<PagingTotals & {
     categories?: Categories,
     columns: ColumnConfigs,
     currentPage?: number,

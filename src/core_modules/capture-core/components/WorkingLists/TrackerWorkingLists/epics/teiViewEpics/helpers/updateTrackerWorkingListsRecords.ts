@@ -38,8 +38,9 @@ export const updateTrackerWorkingListsRecords = ({
         : getTeiListData(rawQueryArgs, params);
 
     return promiseToUpdateRecordsList
-        .then(({ recordContainers, request }) => updateListSuccess(storeId, {
+        .then(({ recordContainers, pagingData, request }) => updateListSuccess(storeId, {
             recordContainers,
+            pagingData,
             request,
         })).catch((error) => {
             log.error(errorCreator('An error occurred when updating the working list records')({ error }));

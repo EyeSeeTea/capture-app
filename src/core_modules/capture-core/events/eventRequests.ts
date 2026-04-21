@@ -191,6 +191,8 @@ export async function getEvents(
     const pagingData = {
         rowsPerPage: queryParams.pageSize,
         currentPage: queryParams.page,
+        total: apiResponse?.total ?? null,
+        pageCount: apiResponse?.pageCount ?? null,
     };
 
     return {
