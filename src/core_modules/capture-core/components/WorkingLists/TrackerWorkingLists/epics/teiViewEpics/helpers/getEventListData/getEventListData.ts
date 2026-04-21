@@ -85,8 +85,8 @@ export const getEventListData = async (
     const pagingData = {
         rowsPerPage: queryParamsEvents.pageSize,
         currentPage: queryParamsEvents.page,
-        total: apiEventsResponse?.total ?? null,
-        pageCount: apiEventsResponse?.pageCount ?? null,
+        total: apiEventsResponse?.total ?? apiEventsResponse?.pager?.total ?? null,
+        pageCount: apiEventsResponse?.pageCount ?? apiEventsResponse?.pager?.pageCount ?? null,
     };
 
     if (apiEvents.length === 0) {

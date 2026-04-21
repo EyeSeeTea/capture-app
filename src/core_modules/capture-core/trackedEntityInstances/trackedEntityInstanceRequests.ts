@@ -89,8 +89,8 @@ export async function getTrackedEntityInstances(
     const pagingData = {
         rowsPerPage: queryParams.pageSize,
         currentPage: queryParams.page,
-        total: apiResponse?.total ?? null,
-        pageCount: apiResponse?.pageCount ?? null,
+        total: apiResponse?.total ?? apiResponse?.pager?.total ?? null,
+        pageCount: apiResponse?.pageCount ?? apiResponse?.pager?.pageCount ?? null,
     };
 
     return {
