@@ -31,8 +31,12 @@ export const useClientAttributesWithSubvalues = (
                 async (promisedAcc: Promise<any[]>, currentTEA) => {
                     const {
                         displayInList,
-                        trackedEntityAttribute: { id, optionSet, valueType, unique, displayFormName },
+                        trackedEntityAttribute: { id, optionSet, valueType, unique, displayFormName, access },
                     } = currentTEA;
+                    const acc = await promisedAcc;
+                    if (access?.read === false) {
+                        return acc;
+                    }
                     const foundAttribute = trackedEntityInstanceAttributes?.find(item => item.attribute === id);
                     let value;
                     if (foundAttribute) {
@@ -51,8 +55,6 @@ export const useClientAttributesWithSubvalues = (
                             value = convertServerToClient(foundAttribute.value, valueType as any);
                         }
                     }
-
-                    const acc = await promisedAcc;
 
                     if (isMultiTextWithoutOptionset(valueType, optionSet)) {
                         log.error(errorCreator(MULIT_TEXT_WITH_NO_OPTIONS_SET)({ optionSet }));
