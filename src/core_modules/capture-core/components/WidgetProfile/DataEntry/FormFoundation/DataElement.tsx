@@ -351,6 +351,10 @@ export const buildDataElement = (
         return null;
     }
 
+    if (trackedEntityAttribute.access?.read === false) {
+        return null;
+    }
+
     return trackedEntityAttribute.valueType === dataElementTypes.DATE
         ? buildDateDataElement(optionSets, programTrackedEntityAttribute, trackedEntityAttribute, querySingleResource)
         : buildBaseDataElement(

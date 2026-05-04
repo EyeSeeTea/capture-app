@@ -31,6 +31,9 @@ export type InputProgramData = {
             };
             valueType: string;
             unique: boolean;
+            access?: {
+                read?: boolean | null;
+            } | null;
         };
         displayInList: boolean;
     }>;

@@ -56,6 +56,9 @@ export type TrackedEntityAttribute = {
     unique?: boolean | null;
     orgunitScope?: boolean | null;
     pattern?: string | null;
+    access?: {
+        read?: boolean | null;
+    } | null;
 };
 
 export type ProgramTrackedEntityAttribute = {
