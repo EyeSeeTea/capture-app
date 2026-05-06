@@ -7,6 +7,7 @@ import type {
     CustomTopBarActions,
     DataSource,
     FiltersData,
+    PagingTotals,
     RemoveFilter,
     SelectRestMenuItem,
     SelectRow,
@@ -33,7 +34,7 @@ import type {
     WorkingListTemplates,
 } from '../workingListsBase.types';
 
-type ExtractedProps = Readonly<{
+type ExtractedProps = Readonly<PagingTotals & {
     categories?: Categories,
     columns: ColumnConfigs,
     currentPage?: number,

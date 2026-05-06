@@ -7,6 +7,8 @@ import type { Props } from './workingListsListViewUpdaterContextProvider.types';
 export const WorkingListsListViewUpdaterContextProvider = ({
     rowsPerPage,
     currentPage,
+    total,
+    pageCount,
     onCancelUpdateList,
     customUpdateTrigger,
     forceUpdateOnMount,
@@ -17,6 +19,8 @@ export const WorkingListsListViewUpdaterContextProvider = ({
     const listViewUpdaterContextData = useMemo(() => ({
         rowsPerPage,
         currentPage,
+        total,
+        pageCount,
         onCancelUpdateList,
         customUpdateTrigger,
         forceUpdateOnMount,
@@ -25,6 +29,8 @@ export const WorkingListsListViewUpdaterContextProvider = ({
     }), [
         rowsPerPage,
         currentPage,
+        total,
+        pageCount,
         onCancelUpdateList,
         customUpdateTrigger,
         forceUpdateOnMount,

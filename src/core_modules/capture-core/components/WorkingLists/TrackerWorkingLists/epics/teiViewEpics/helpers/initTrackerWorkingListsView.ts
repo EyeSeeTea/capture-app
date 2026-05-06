@@ -50,13 +50,10 @@ export const initTrackerWorkingListsViewAsync = async ({
         : getTeiListData(rawQueryArgs, params);
 
     return promiseToGetRecordsList
-        .then(({ recordContainers, request }) =>
+        .then(({ recordContainers, pagingData, request }) =>
             initListViewSuccess(storeId, {
                 recordContainers,
-                pagingData: {
-                    rowsPerPage,
-                    currentPage,
-                },
+                pagingData,
                 request,
                 config: {
                     sortById,

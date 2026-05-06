@@ -7,6 +7,8 @@ type Props = {
     rowsCountSelector?: React.ReactNode | null | undefined;
     rowsCountSelectorLabel?: string | null | undefined;
     navigationElements: React.ReactNode;
+    total?: number | null;
+    pageCount?: number | null;
 };
 
 export class Pagination extends React.Component<Props> {
@@ -39,19 +41,29 @@ export class Pagination extends React.Component<Props> {
             rowsCountSelector,
             rowsCountSelectorLabel,
             navigationElements,
+            total,
+            pageCount,
         } = this.props;
 
         const rowsCountElement = Pagination.getRowsCountElement(rowsCountSelectorLabel, rowsCountSelector);
+        const pageLabel = pageCount != null
+            ? i18n.t('Page {{currentPage}} of {{pageCount}}', { currentPage, pageCount })
+            : i18n.t('Page {{currentPage}}', { currentPage });
         return (
             <div
                 data-test="pagination"
                 className={defaultClasses.pagination}
             >
                 {rowsCountElement}
+                {total != null && (
+                    <div className={defaultClasses.paginationDisplayRowsContainer}>
+                        {i18n.t('{{count}} result', { count: total }) as React.ReactNode}
+                    </div>
+                )}
                 {
                     currentPage &&
                     <div className={defaultClasses.paginationDisplayRowsContainer}>
-                        {i18n.t('Page {{currentPage}}', { currentPage }) as React.ReactNode}
+                        {pageLabel as React.ReactNode}
                     </div>
                 }
                 {navigationElements}

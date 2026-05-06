@@ -52,6 +52,8 @@ export const WorkingListsContextBuilder = (props: Props) => {
         stickyFilters,
         rowsPerPage,
         currentPage,
+        total,
+        pageCount,
         currentViewHasTemplateChanges,
         viewPreloaded,
         customUpdateTrigger,
@@ -122,6 +124,8 @@ export const WorkingListsContextBuilder = (props: Props) => {
                     <WorkingListsListViewUpdaterContextProvider
                         rowsPerPage={rowsPerPage}
                         currentPage={currentPage}
+                        total={total}
+                        pageCount={pageCount}
                         onCancelUpdateList={onCancelUpdateList}
                         customUpdateTrigger={customUpdateTrigger}
                         forceUpdateOnMount={forceUpdateOnMount}

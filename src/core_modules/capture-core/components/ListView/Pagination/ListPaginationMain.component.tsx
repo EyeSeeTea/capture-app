@@ -5,9 +5,21 @@ import {
 } from 'capture-ui';
 import { withNavigation } from '../../Pagination/withDefaultNavigation';
 import { withRowsPerPageSelector } from '../../Pagination/withRowsPerPageSelector';
+import type { PagingTotals } from '../types';
 import type { Props } from './listPaginationMain.types';
 
-const PaginationWrapped = withRowsPerPageSelector()(withNavigation()(Pagination)) as any;
+type PaginationWrappedProps = PagingTotals & {
+    currentPage: number;
+    rowsPerPage: number;
+    rowsCountSelectorLabel?: string;
+    nextPageButtonDisabled: boolean;
+    onChangePage: (pageNumber: number) => void;
+    onChangeRowsPerPage: (rowsPerPage: number) => void;
+    disabled?: boolean;
+};
+
+const PaginationWrapped: React.ComponentType<PaginationWrappedProps> =
+    withRowsPerPageSelector()(withNavigation()(Pagination)) as any;
 
 export const ListPaginationMain = ({ rowCountPage, rowsPerPage, ...passOnProps }: Props) => (
     <PaginationWrapped

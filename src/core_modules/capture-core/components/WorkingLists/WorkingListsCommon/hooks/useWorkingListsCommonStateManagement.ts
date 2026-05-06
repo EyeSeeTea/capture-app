@@ -153,6 +153,8 @@ const useView = (
         const {
             rowsPerPage,
             currentPage,
+            total,
+            pageCount,
             sortById,
             sortByDirection,
             initial,
@@ -179,6 +181,8 @@ const useView = (
             stickyFilters: workingListsStickyFilters[storeId],
             rowsPerPage: nextRowsPerPage || rowsPerPage,
             currentPage: nextCurrentPage || currentPage,
+            total,
+            pageCount,
             sortById: nextSortById || sortById,
             sortByDirection: nextSortByDirection || sortByDirection,
             initialViewConfig: nextInitial || initial,
