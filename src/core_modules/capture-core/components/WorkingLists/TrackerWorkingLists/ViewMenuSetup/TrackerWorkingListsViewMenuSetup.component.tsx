@@ -1,16 +1,26 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { useSelector } from 'react-redux';
-import { useDataEngine } from '@dhis2/app-runtime';
+import { useConfig, useDataEngine } from '@dhis2/app-runtime';
+import { buildUrl } from 'capture-core-utils';
 import { makeQuerySingleResource } from 'capture-core/utils/api';
 import i18n from '@dhis2/d2-i18n';
 import { TrackerWorkingListsTopBarActionsSetup } from '../ActionsSetup';
 import type { CustomMenuContents } from '../../WorkingListsBase';
 import type { Props } from './trackerWorkingListsViewMenuSetup.types';
-import { DownloadDialog, useSelectedRowsController } from '../../WorkingListsCommon';
+import { DownloadDialog, useColumns, useSelectedRowsController } from '../../WorkingListsCommon';
+import { useDefaultColumnConfig } from '../Setup/hooks';
 import { computeDownloadRequest } from './downloadRequest';
+import { fetchAllTeisForExport } from './fetchAllTeisForExport';
+import { buildColumnsMetaForDataFetching } from './buildColumnsMetaForDataFetching';
 import { convertToClientConfig } from '../helpers/TEIFilters';
 import { TrackedEntityBulkActions } from '../TrackedEntityBulkActions';
+import type { TrackerWorkingListsColumnConfig, TrackerWorkingListsColumnConfigs } from '../types';
+
+type WorkingListsState = {
+    workingLists: { [storeId: string]: { currentRequest?: { url: string; queryParams?: any } } };
+    workingListsColumnsOrder: { [storeId: string]: Array<{ id: string; visible: boolean }> | undefined };
+};
 
 export const TrackerWorkingListsViewMenuSetup = ({
     onLoadView,
@@ -35,9 +45,30 @@ export const TrackerWorkingListsViewMenuSetup = ({
         removeRowsFromSelection,
     } = useSelectedRowsController({ recordIds: recordsOrder });
     const downloadRequest = useSelector(
-        ({ workingLists }: any) => workingLists[storeId] && workingLists[storeId].currentRequest,
+        (state: WorkingListsState) => state.workingLists[storeId]?.currentRequest,
+    );
+    const customColumnOrder = useSelector(
+        (state: WorkingListsState) => state.workingListsColumnsOrder?.[storeId],
+    );
+    const defaultColumns = useDefaultColumnConfig(program, orgUnitId, programStageId);
+    const computedColumns = useColumns<TrackerWorkingListsColumnConfigs>(customColumnOrder, defaultColumns);
+    const exportColumns = useMemo(
+        () =>
+            (computedColumns || []).map((column: TrackerWorkingListsColumnConfig) => ({
+                id: column.id,
+                header: column.header,
+                visible: column.visible,
+                type: column.type,
+                options: column.options ?? null,
+            })),
+        [computedColumns],
+    );
+    const columnsMetaForDataFetching = useMemo(
+        () => buildColumnsMetaForDataFetching(defaultColumns),
+        [defaultColumns],
     );
     const dataEngine = useDataEngine();
+    const { baseUrl, apiVersion } = useConfig();
     const [downloadDialogOpen, setDownloadDialogOpenStatus] = useState(false);
     const customListViewMenuContents: CustomMenuContents = useMemo(() => {
         if (programStageId || !orgUnitId) {
@@ -59,11 +90,11 @@ export const TrackerWorkingListsViewMenuSetup = ({
 
     const injectDownloadRequestToLoadView = useCallback(
         async (selectedTemplate: any, context: any, meta: any) => {
-            const { columnsMetaForDataFetching, filtersOnlyMetaForDataFetching } = meta;
+            const { columnsMetaForDataFetching: injectedMeta, filtersOnlyMetaForDataFetching } = meta;
             const querySingleResource = makeQuerySingleResource(dataEngine.query.bind(dataEngine));
             const clientConfig = await convertToClientConfig(
                 selectedTemplate,
-                columnsMetaForDataFetching,
+                injectedMeta,
                 querySingleResource,
             );
             const currentRequest = computeDownloadRequest({
@@ -73,7 +104,7 @@ export const TrackerWorkingListsViewMenuSetup = ({
                     orgUnitId: context.orgUnitId,
                     storeId,
                 },
-                meta: { columnsMetaForDataFetching },
+                meta: { columnsMetaForDataFetching: injectedMeta },
                 filtersOnlyMetaForDataFetching,
             });
 
@@ -84,7 +115,7 @@ export const TrackerWorkingListsViewMenuSetup = ({
 
     const injectDownloadRequestToUpdateList = useCallback(
         (queryArgs: any, meta: any) => {
-            const { lastTransaction, columnsMetaForDataFetching, filtersOnlyMetaForDataFetching } = meta;
+            const { lastTransaction, columnsMetaForDataFetching: injectedMeta, filtersOnlyMetaForDataFetching } = meta;
             const currentRequest = computeDownloadRequest({
                 clientConfig: queryArgs,
                 context: {
@@ -92,7 +123,7 @@ export const TrackerWorkingListsViewMenuSetup = ({
                     orgUnitId: queryArgs.orgUnitId,
                     storeId,
                 },
-                meta: { columnsMetaForDataFetching },
+                meta: { columnsMetaForDataFetching: injectedMeta },
                 filtersOnlyMetaForDataFetching,
             });
             return onUpdateList(queryArgs, { ...meta, currentRequest }, lastTransaction);
@@ -100,11 +131,35 @@ export const TrackerWorkingListsViewMenuSetup = ({
         [onUpdateList, storeId],
     );
 
+    const handleFetchAllForView = useCallback(
+        async ({ onProgress, isCancelled }: {
+            onProgress: (loaded: number, total?: number) => void;
+            isCancelled: () => boolean;
+        }) => {
+            if (!downloadRequest) {
+                return { records: [] };
+            }
+            const querySingleResource = makeQuerySingleResource(dataEngine.query.bind(dataEngine));
+            const absoluteApiPath = buildUrl(baseUrl, `api/${apiVersion}`);
+            return fetchAllTeisForExport({
+                querySingleResource,
+                absoluteApiPath,
+                baseQueryParams: downloadRequest.queryParams || {},
+                programId: program.id,
+                columnsMetaForDataFetching,
+                onProgress,
+                isCancelled,
+            });
+        },
+        [dataEngine, downloadRequest, program.id, baseUrl, apiVersion, columnsMetaForDataFetching],
+    );
 
     const handleCustomUpdateTrigger = useCallback((disableClearSelection?: boolean) => {
         const id = uuid();
         setCustomUpdateTrigger(id);
-        !disableClearSelection && clearSelection();
+        if (!disableClearSelection) {
+            clearSelection();
+        }
     }, [clearSelection]);
 
     const TrackedEntityBulkActionsComponent = useMemo(() => (
@@ -156,6 +211,9 @@ export const TrackerWorkingListsViewMenuSetup = ({
                 open={downloadDialogOpen}
                 onClose={handleCloseDialog}
                 request={downloadRequest}
+                columns={exportColumns}
+                onFetchAllForView={handleFetchAllForView}
+                fileNameBase={`${program.shortName || program.name || 'tracked-entities'}-view`}
             />
         </>
     );

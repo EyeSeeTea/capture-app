@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2026-03-17T09:58:03.655Z\n"
-"PO-Revision-Date: 2026-03-17T09:58:03.655Z\n"
+"POT-Creation-Date: 2026-04-21T13:37:17.246Z\n"
+"PO-Revision-Date: 2026-04-21T13:37:17.246Z\n"
 
 msgid "The application could not be loaded."
 msgstr "The application could not be loaded."
@@ -2150,14 +2150,29 @@ msgstr[1] "{{count}} selected"
 msgid "Deselect all"
 msgstr "Deselect all"
 
+msgid "Export was truncated (maximum {{limit}} rows)."
+msgstr "Export was truncated (maximum {{limit}} rows)."
+
+msgid "Failed to export CSV"
+msgstr "Failed to export CSV"
+
 msgid "Download as JSON"
 msgstr "Download as JSON"
 
 msgid "Download as CSV"
 msgstr "Download as CSV"
 
+msgid "Download current view as CSV"
+msgstr "Download current view as CSV"
+
 msgid "Download with current filters"
 msgstr "Download with current filters"
+
+msgid "Downloading ({{loaded}} of ~{{total}})"
+msgstr "Downloading ({{loaded}} of ~{{total}})"
+
+msgid "Downloading ({{loaded}})"
+msgstr "Downloading ({{loaded}})"
 
 msgid "Exact matches only"
 msgstr "Exact matches only"
