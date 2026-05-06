@@ -18,6 +18,8 @@ export const ListViewContextBuilder = ({
     onChangeRowsPerPage,
     rowsPerPage,
     currentPage,
+    total,
+    pageCount,
     dataSource,
     ...passOnProps
 }: Props) => {
@@ -27,12 +29,16 @@ export const ListViewContextBuilder = ({
         rowsPerPage,
         currentPage,
         rowCountPage: dataSource.length,
+        total,
+        pageCount,
     }), [
         onChangePage,
         onChangeRowsPerPage,
         rowsPerPage,
         currentPage,
         dataSource.length,
+        total,
+        pageCount,
     ]);
 
     return (

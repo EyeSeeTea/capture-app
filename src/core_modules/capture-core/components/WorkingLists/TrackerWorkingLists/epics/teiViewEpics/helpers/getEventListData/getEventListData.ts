@@ -46,6 +46,7 @@ const createApiEventQueryArgs = (
         program,
         programStage,
         fields: '*',
+        totalPages: true,
     };
 
     return getScheduledDateQueryArgs(queryArgs);
@@ -81,9 +82,17 @@ export const getEventListData = async (
     });
     const apiEvents = handleAPIResponse(REQUESTED_ENTITIES.events, apiEventsResponse);
 
+    const pagingData = {
+        rowsPerPage: queryParamsEvents.pageSize,
+        currentPage: queryParamsEvents.page,
+        total: apiEventsResponse?.total ?? apiEventsResponse?.pager?.total ?? null,
+        pageCount: apiEventsResponse?.pageCount ?? apiEventsResponse?.pager?.pageCount ?? null,
+    };
+
     if (apiEvents.length === 0) {
         return {
             recordContainers: [],
+            pagingData,
             request: {
                 url: urlEvents,
                 queryParams: queryParamsEvents,
@@ -116,6 +125,7 @@ export const getEventListData = async (
     );
     return {
         recordContainers: clientWithSubvalues,
+        pagingData,
         request: {
             url: urlEvents,
             queryParams: queryParamsEvents,
