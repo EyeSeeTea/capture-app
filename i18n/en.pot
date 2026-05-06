@@ -2156,14 +2156,29 @@ msgstr[1] "{{count}} selected"
 msgid "Deselect all"
 msgstr "Deselect all"
 
+msgid "Export was truncated (maximum {{limit}} rows)."
+msgstr "Export was truncated (maximum {{limit}} rows)."
+
+msgid "Failed to export CSV"
+msgstr "Failed to export CSV"
+
 msgid "Download as JSON"
 msgstr "Download as JSON"
 
 msgid "Download as CSV"
 msgstr "Download as CSV"
 
+msgid "Download current view as CSV"
+msgstr "Download current view as CSV"
+
 msgid "Download with current filters"
 msgstr "Download with current filters"
+
+msgid "Downloading ({{loaded}} of ~{{total}})"
+msgstr "Downloading ({{loaded}} of ~{{total}})"
+
+msgid "Downloading ({{loaded}})"
+msgstr "Downloading ({{loaded}})"
 
 msgid "Exact matches only"
 msgstr "Exact matches only"
