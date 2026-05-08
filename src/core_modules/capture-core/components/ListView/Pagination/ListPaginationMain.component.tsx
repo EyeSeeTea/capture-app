@@ -21,11 +21,24 @@ type PaginationWrappedProps = PagingTotals & {
 const PaginationWrapped: React.ComponentType<PaginationWrappedProps> =
     withRowsPerPageSelector()(withNavigation()(Pagination)) as any;
 
-export const ListPaginationMain = ({ rowCountPage, rowsPerPage, ...passOnProps }: Props) => (
-    <PaginationWrapped
-        {...passOnProps}
-        rowsPerPage={rowsPerPage}
-        rowsCountSelectorLabel={i18n.t('Rows per page')}
-        nextPageButtonDisabled={!!(rowsPerPage > rowCountPage)}
-    />
-);
+export const ListPaginationMain = ({
+    rowCountPage,
+    rowsPerPage,
+    currentPage,
+    pageCount,
+    ...passOnProps
+}: Props) => {
+    const nextPageButtonDisabled = typeof pageCount === 'number'
+        ? currentPage >= pageCount
+        : rowsPerPage > rowCountPage;
+    return (
+        <PaginationWrapped
+            {...passOnProps}
+            currentPage={currentPage}
+            pageCount={pageCount}
+            rowsPerPage={rowsPerPage}
+            rowsCountSelectorLabel={i18n.t('Rows per page')}
+            nextPageButtonDisabled={nextPageButtonDisabled}
+        />
+    );
+};
