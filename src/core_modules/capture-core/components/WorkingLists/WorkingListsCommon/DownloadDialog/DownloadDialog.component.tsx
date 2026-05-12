@@ -102,7 +102,7 @@ const DownloadDialogPlain = ({
                 );
             }
             if (result.error) {
-                notices.push(i18n.t('Some rows may be missing: {{reason}}', { reason: result.error }));
+                notices.push(`${i18n.t('Some rows may be missing:')} ${result.error}`);
             }
             if (notices.length > 0) setMessage(notices.join(' '));
         } catch (e: any) {
