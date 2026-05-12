@@ -57,13 +57,16 @@ export class Pagination extends React.Component<Props> {
                 {rowsCountElement}
                 {total != null && (
                     <div className={defaultClasses.paginationDisplayRowsContainer}>
-                        {i18n.t('{{count}} result', { count: total }) as React.ReactNode}
+                        {i18n.t('{{count}} result', {
+                            count: total,
+                            defaultValue: '{{count}} result',
+                            defaultValue_plural: '{{count}} results' })}
                     </div>
                 )}
                 {
                     currentPage &&
                     <div className={defaultClasses.paginationDisplayRowsContainer}>
-                        {pageLabel as React.ReactNode}
+                        {pageLabel}
                     </div>
                 }
                 {navigationElements}
