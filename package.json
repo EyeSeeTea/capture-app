@@ -1,7 +1,7 @@
 {
     "name": "capture-app",
     "homepage": ".",
-    "version": "105.13.5",
+    "version": "105.13.5-spip1",
     "cacheVersion": "2",
     "license": "BSD-3-Clause",
     "private": true,
