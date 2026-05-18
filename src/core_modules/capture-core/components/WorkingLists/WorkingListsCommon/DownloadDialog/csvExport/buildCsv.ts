@@ -51,6 +51,8 @@ const extractOrgUnit = (value: any): string => {
     return String(value);
 };
 
+// Handles heterogeneous tracker values for CSV export in one place to preserve output compatibility.
+// eslint-disable-next-line complexity
 const formatPrimitive = (value: any, type?: string): string => {
     if (value == null) return '';
     if (typeof value === 'boolean') return value ? i18n.t('Yes') : i18n.t('No');

@@ -47,6 +47,8 @@ const fetchPageWithRetry = async (
     throw lastError;
 };
 
+// Intentionally imperative: paginated fetching with retries, cancellation and progress reporting.
+// eslint-disable-next-line complexity
 export const fetchAllTeisForExport = async ({
     querySingleResource,
     absoluteApiPath,
