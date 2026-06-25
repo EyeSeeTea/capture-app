@@ -21,7 +21,6 @@ export const DataEntry = ({
     orgUnitId,
     onCancel,
     onDisable,
-    onEnable,
     clientAttributesWithSubvalues,
     userRoles,
     modalState,
@@ -92,17 +91,13 @@ export const DataEntry = ({
     const onUpdateFormField = useCallback(
         (innerAction: any) => {
             const uid = uuid();
-            onDisable();
             dispatch(startRunRulesPostUpdateField(dataEntryId, itemId, uid));
 
             getUpdateFieldActions({ context, querySingleResource, onGetValidationContext, innerAction, uid }).then(
-                (actions) => {
-                    onEnable();
-                    return dispatch(actions);
-                },
+                actions => dispatch(actions),
             );
         },
-        [dispatch, querySingleResource, context, onGetValidationContext, onDisable, onEnable],
+        [dispatch, querySingleResource, context, onGetValidationContext],
     );
     const onUpdateFormFieldAsync = useCallback(
         (innerAction: any) => {
